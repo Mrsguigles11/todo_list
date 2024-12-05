@@ -1,0 +1,17 @@
+
+All tasks 
+
+add task button to all tasks as default
+create pop up 
+    require:
+     - Task name
+     - Task description
+     - Due date
+     - Priority
+send task to current list
+create delete button 
+create check option
+
+button for alternative lists
+
+lists > go between (get list / get task / send task to list) < tasks
