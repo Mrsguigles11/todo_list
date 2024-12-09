@@ -42,7 +42,7 @@ body {
 }
 
 button {
-    font-family: "Montserrat", sans-serif;
+    font-family: inherit;
     color: white;
     background: none;
     border: 1px solid white;
