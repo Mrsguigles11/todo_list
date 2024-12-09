@@ -13,6 +13,11 @@ const dom = (function () {
             const newList = new List(listName);
             newList.publishList();
         })
+        cache.newTaskButton.addEventListener('click', () => {
+            const taskTitle = prompt("Enter new task name");
+            const newTask = new Task(taskTitle);
+            newTask.publishTask();
+        })
     }
 
     const addNewList = function (list) {
@@ -35,8 +40,8 @@ class List {
         listManager.addList(this);
     }
 
-    addTask(task) {
-        this.task = task;
+    addTask(taskTitle, task) {
+        this[taskTitle] = task;
     }
 
 }
@@ -50,16 +55,25 @@ const listManager = (function () {
         console.log(lists);
     }
 
-    return{addList}
+    const getCurrentList = function () {
+        return(lists[0]);
+    }
+
+    return{addList, getCurrentList, lists}
  })();
 
 class Task {
-    constructor(title, description, dueDate, priority) {
+    constructor(title) {
         this.title = title;
-        this.description = description;
-        this.dueDate = dueDate;
-        this.priority = priority
+        // this.description = description;
+        // this.dueDate = dueDate;
+        // this.priority = priority
     }
 
+    publishTask() {
+        const currentList = listManager.getCurrentList();
+        currentList.addTask(this.title, this);
+        console.log(listManager.lists);
+    }
 
 }
