@@ -1,30 +1,39 @@
 import "./styles.css";
 
-(function () {
+const dom = (function () {
     const domCache = {
         newTaskButton : document.querySelector("#new_task_button"),
         newListButton : document.querySelector("#new_list_button"),
+        sideBar : document.querySelector(".sidebar"),
     }
 
     const bindEvents = function () {
         domCache.newListButton.addEventListener('click', () => {
-            const newListName = prompt("Enter new list name");
-            listManager.publishList(newListName);
+            const listName = prompt("Enter new list name");
+            const newList = new List(listName);
+            newList.publishList();
         })
+    }
+
+    const addNewList = function (list) {
+        const newList = document.createElement('div');
+        newList.textContent = list;
+        domCache.sideBar.appendChild(newList);
     }
 
     bindEvents();
 
-    return{domCache};
+    return{domCache, addNewList};
 })();
 
-// class listManager {
-//     constructor(list) {
-//         this.list = list;
-//     }
+class List {
+    constructor(list) {
+        this.list = list;
+    }
 
-//     publishList(list) {
-//         this.list = list
-//     }
+    publishList() {
+        dom.addNewList(this.list);
+    }
 
-// }
+}
+
