@@ -1,14 +1,14 @@
 import "./styles.css";
 
 const dom = (function () {
-    const domCache = {
+    const cache = {
         newTaskButton : document.querySelector("#new_task_button"),
         newListButton : document.querySelector("#new_list_button"),
         sideBar : document.querySelector(".sidebar"),
     }
 
     const bindEvents = function () {
-        domCache.newListButton.addEventListener('click', () => {
+        cache.newListButton.addEventListener('click', () => {
             const listName = prompt("Enter new list name");
             const newList = new List(listName);
             newList.publishList();
@@ -17,13 +17,13 @@ const dom = (function () {
 
     const addNewList = function (list) {
         const newList = document.createElement('div');
-        newList.textContent = list;
-        domCache.sideBar.appendChild(newList);
+        newList.textContent = list.list;
+        cache.sideBar.appendChild(newList);
     }
 
     bindEvents();
 
-    return{domCache, addNewList};
+    return{cache, addNewList};
 })();
 
 class List {
@@ -32,8 +32,34 @@ class List {
     }
 
     publishList() {
-        dom.addNewList(this.list);
+        listManager.addList(this);
+    }
+
+    addTask(task) {
+        this.task = task;
     }
 
 }
 
+const listManager = (function () {
+    const lists = [];
+
+    const addList = function(list) {
+        lists.push(list);
+        dom.addNewList(list);
+        console.log(lists);
+    }
+
+    return{addList}
+ })();
+
+class Task {
+    constructor(title, description, dueDate, priority) {
+        this.title = title;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.priority = priority
+    }
+
+
+}
