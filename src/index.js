@@ -40,40 +40,47 @@ class List {
         listManager.addList(this);
     }
 
-    addTask(taskTitle, task) {
-        this[taskTitle] = task;
-    }
-
 }
 
 const listManager = (function () {
-    const lists = [];
+    const allTasks = new List ("All Tasks");
+    const currentList = allTasks;
+    const lists = [allTasks];
+    let i = 1;
 
     const addList = function(list) {
         lists.push(list);
         dom.addNewList(list);
-        console.log(lists);
     }
 
     const getCurrentList = function () {
-        return(lists[0]);
+        return(currentList);
     }
 
-    return{addList, getCurrentList, lists}
+    const addTaskToList = function(task) {
+        currentList["task" + i] = task;
+        i++;
+        console.log(currentList);
+    }
+
+    return{addList, getCurrentList, addTaskToList}
  })();
 
 class Task {
-    constructor(title) {
+    constructor(title, description, dueDate, priority) {
         this.title = title;
-        // this.description = description;
-        // this.dueDate = dueDate;
-        // this.priority = priority
+        this.description = description;
+        this.dueDate = dueDate;
+        this.priority = priority
     }
 
     publishTask() {
-        const currentList = listManager.getCurrentList();
-        currentList.addTask(this.title, this);
-        console.log(listManager.lists);
+        listManager.addTaskToList(this);
     }
 
 }
+
+const task1 = new Task("Do homework", "Get good grades", "Tommorow", "High");
+task1.publishTask();
+const task2 = new Task("1", "2", "3", "4");
+task2.publishTask();
