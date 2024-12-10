@@ -5,6 +5,7 @@ const dom = (function () {
         newTaskButton : document.querySelector("#new_task_button"),
         newListButton : document.querySelector("#new_list_button"),
         sideBar : document.querySelector(".sidebar"),
+        lists : document.querySelector(".lists"),
     }
 
     const bindEvents = function () {
@@ -23,7 +24,11 @@ const dom = (function () {
     const addListToSidebar = function (list) {
         const newList = document.createElement('div');
         newList.textContent = list.listTitle;
-        cache.sideBar.appendChild(newList);
+        newList.addEventListener('click', () => {
+            listManager.changeCurrentList(list);
+            console.log(listManager.getCurrentList());
+        })
+        cache.lists.appendChild(newList);
     }
 
     bindEvents();
@@ -44,7 +49,8 @@ class List {
 
 const listManager = (function () {
     const allTasks = new List ("All Tasks");
-    const currentList = allTasks;
+    dom.addListToSidebar(allTasks);
+    let currentList = allTasks;
     const lists = [allTasks];
 
     const addList = function(list) {
@@ -56,7 +62,11 @@ const listManager = (function () {
         return(currentList);
     }
 
-    return{addList, getCurrentList}
+    const changeCurrentList = function (list) {
+        currentList = list;
+    }
+
+    return{addList, getCurrentList, changeCurrentList}
  })();
 
  const taskManager = (function () {
