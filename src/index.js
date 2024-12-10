@@ -20,20 +20,20 @@ const dom = (function () {
         })
     }
 
-    const addNewList = function (list) {
+    const addListToSidebar = function (list) {
         const newList = document.createElement('div');
-        newList.textContent = list.list;
+        newList.textContent = list.listTitle;
         cache.sideBar.appendChild(newList);
     }
 
     bindEvents();
 
-    return{cache, addNewList};
+    return{cache, addListToSidebar};
 })();
 
 class List {
-    constructor(list) {
-        this.list = list;
+    constructor(listTitle) {
+        this.listTitle = listTitle;
     }
 
     publishList() {
@@ -46,24 +46,30 @@ const listManager = (function () {
     const allTasks = new List ("All Tasks");
     const currentList = allTasks;
     const lists = [allTasks];
-    let i = 1;
 
     const addList = function(list) {
         lists.push(list);
-        dom.addNewList(list);
+        dom.addListToSidebar(list);
     }
 
     const getCurrentList = function () {
         return(currentList);
     }
 
+    return{addList, getCurrentList}
+ })();
+
+ const taskManager = (function () {
+    let i = 1;
+
     const addTaskToList = function(task) {
+        const currentList = listManager.getCurrentList();
         currentList["task" + i] = task;
         i++;
         console.log(currentList);
     }
 
-    return{addList, getCurrentList, addTaskToList}
+    return {addTaskToList}
  })();
 
 class Task {
@@ -75,7 +81,7 @@ class Task {
     }
 
     publishTask() {
-        listManager.addTaskToList(this);
+        taskManager.addTaskToList(this);
     }
 
 }
