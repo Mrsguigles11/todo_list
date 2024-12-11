@@ -79,7 +79,17 @@ const listManager = (function () {
         console.log(currentList);
     }
 
-    return {addTaskToList}
+    const removeTask = function (task) {
+        const currentList = listManager.getCurrentList();
+        for (const key in currentList) {
+            if (currentList[key].title === task.title) {
+                delete currentList[key];
+                console.log(currentList);
+            }
+        }
+    }
+
+    return {addTaskToList, removeTask}
  })();
 
 class Task {
@@ -100,3 +110,4 @@ const task1 = new Task("Do homework", "Get good grades", "Tommorow", "High");
 task1.publishTask();
 const task2 = new Task("1", "2", "3", "4");
 task2.publishTask();
+taskManager.removeTask(task1);

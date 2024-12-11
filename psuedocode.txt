@@ -23,5 +23,5 @@ list class  > list manager <     task manager  < task class
               get current list   take in a task
               change current lists add task to list
               take in new list   delete task
-              add new list to    send updated list to dom
+              add new list to    send tasks to dom
               dom   
