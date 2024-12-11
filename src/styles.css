@@ -54,3 +54,17 @@ button {
 h3 {
     cursor: pointer;
 }
+
+.content {
+    padding: 20px;
+}
+
+.form_container {
+    display: none;
+}
+
+#form_submit_button {
+    color: black;
+    border: 1px solid black;
+
+}

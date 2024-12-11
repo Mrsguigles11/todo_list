@@ -7,7 +7,13 @@ const dom = (function () {
         sideBar : document.querySelector(".sidebar"),
         lists : document.querySelector(".lists"),
         currentListHeading : document.querySelector("h2"),
-        mainContent : document.querySelector(".content"),
+        taskContent : document.querySelector(".task_content"),
+        newTaskForm : document.querySelector(".form_container"),
+        titleInput : document.querySelector("#title"),
+        descriptionInput : document.querySelector("#description"),
+        priorityInput : document.querySelector("#priority"),
+        dueDateInput : document.querySelector("#due_date"),
+        formSubmitButton : document.querySelector("#form_submit_button"),
     }
 
     const bindEvents = function () {
@@ -17,9 +23,12 @@ const dom = (function () {
             newList.publishList();
         })
         cache.newTaskButton.addEventListener('click', () => {
-            const taskTitle = prompt("Enter new task name");
-            const newTask = new Task(taskTitle);
-            newTask.publishTask();
+            cache.newTaskForm.style.display = "block";
+        })
+        cache.formSubmitButton.addEventListener('click', () => {
+            const newTask = new Task(cache.titleInput.value, cache.descriptionInput.value, cache.priorityInput.value, cache.dueDateInput.value);
+            taskManager.addTaskToList(newTask);
+            cache.newTaskForm.style.display = "none";
         })
     }
 
@@ -29,23 +38,23 @@ const dom = (function () {
         newList.addEventListener('click', () => {
             listManager.changeCurrentList(list);
             cache.currentListHeading.textContent = list.listTitle;
-            addListToContent(list);
+            addTasksToContent(list);
         })
         cache.lists.appendChild(newList);
     }
 
-    const addListToContent = function (list) {
-        cache.mainContent.innerHTML = "";
+    const addTasksToContent = function (list) {
+        cache.taskContent.innerHTML = "";
         for (const task in list) {
             if (task !== "listTitle") {
                 const newTask = document.createElement('div');
                 newTask.textContent = `Title: ${list[task].title} Description: ${list[task].description} Priority: ${list[task].priority} Due date: ${list[task].dueDate}`;
-                cache.mainContent.appendChild(newTask);}}       
+                cache.taskContent.appendChild(newTask);}}       
     }
 
     bindEvents();
 
-    return{cache, addListToSidebar, addListToContent};
+    return{cache, addListToSidebar, addTasksToContent};
 })();
 
 class List {
@@ -88,7 +97,7 @@ const listManager = (function () {
         const currentList = listManager.getCurrentList();
         currentList["task" + i] = task;
         i++;
-        dom.addListToContent(currentList);
+        dom.addTasksToContent(currentList);
         console.log(currentList);
     }
 
@@ -100,18 +109,18 @@ const listManager = (function () {
                 console.log(currentList);
             }
         }
-        dom.addListToContent(currentList);
+        dom.addTasksToContent(currentList);
     }
 
     return {addTaskToList, removeTask}
  })();
 
 class Task {
-    constructor(title, description, dueDate, priority) {
+    constructor(title, description, priority, dueDate) {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
-        this.priority = priority
+        this.priority = priority;
     }
 
     publishTask() {
@@ -120,8 +129,5 @@ class Task {
 
 }
 
-const task1 = new Task("Do homework", "Get good grades", "Tommorow", "High");
+const task1 = new Task("Do homework", "Get good grades", "High", "Tommorow");
 task1.publishTask();
-const task2 = new Task("1", "2", "3", "4");
-task2.publishTask();
-taskManager.removeTask(task2);
