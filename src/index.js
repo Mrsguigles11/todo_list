@@ -29,6 +29,7 @@ const dom = (function () {
         newList.addEventListener('click', () => {
             listManager.changeCurrentList(list);
             cache.currentListHeading.textContent = list.listTitle;
+            addListToContent(list);
         })
         cache.lists.appendChild(newList);
     }
@@ -99,6 +100,7 @@ const listManager = (function () {
                 console.log(currentList);
             }
         }
+        dom.addListToContent(currentList);
     }
 
     return {addTaskToList, removeTask}
@@ -122,3 +124,4 @@ const task1 = new Task("Do homework", "Get good grades", "Tommorow", "High");
 task1.publishTask();
 const task2 = new Task("1", "2", "3", "4");
 task2.publishTask();
+taskManager.removeTask(task2);
