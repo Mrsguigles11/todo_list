@@ -14,6 +14,7 @@ const dom = (function () {
         priorityInput : document.querySelector("#priority"),
         dueDateInput : document.querySelector("#due_date"),
         formSubmitButton : document.querySelector("#form_submit_button"),
+        formOverlay : document.querySelector(".form_overlay"),
     }
 
     const bindEvents = function () {
@@ -24,11 +25,13 @@ const dom = (function () {
         })
         cache.newTaskButton.addEventListener('click', () => {
             cache.newTaskForm.style.display = "block";
+            cache.formOverlay.style.display = "block";
         })
         cache.formSubmitButton.addEventListener('click', () => {
             const newTask = new Task(cache.titleInput.value, cache.descriptionInput.value, cache.priorityInput.value, cache.dueDateInput.value);
             taskManager.addTaskToList(newTask);
             cache.newTaskForm.style.display = "none";
+            cache.formOverlay.style.display = "none";
         })
     }
 

@@ -6,18 +6,8 @@
     <title>To Do List</title>
 </head>
 <body>
-    <div class="sidebar">
-        <h1>To Do List</h1>
-        <div class="lists"></div>
-        <button id="new_list_button">New List</button>
-    </div>
-    <div class="header">
-        <h2>All tasks</h2>
-        <button id="new_task_button">New task</button>
-    </div>
-    <div class="content">
-        <div class="task_content"></div>
-        <div class="form_container">
+    <div class="form_container">
+        <div class="form_content_container">
             <form action="">
                 <label for="title">Task name:</label>
                 <input type="text" id="title">
@@ -30,6 +20,19 @@
             </form>
             <button id="form_submit_button">Submit</button>
         </div>
+    </div>
+    <div class="form_overlay"></div>
+    <div class="sidebar">
+        <h1>To Do List</h1>
+        <div class="lists"></div>
+        <button id="new_list_button">New List</button>
+    </div>
+    <div class="header">
+        <h2>All tasks</h2>
+        <button id="new_task_button">New task</button>
+    </div>
+    <div class="content">
+        <div class="task_content"></div>
     </div>
 </body>
 </html>
