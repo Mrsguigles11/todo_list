@@ -7,6 +7,7 @@ const dom = (function () {
         sideBar : document.querySelector(".sidebar"),
         lists : document.querySelector(".lists"),
         currentListHeading : document.querySelector("h2"),
+        mainContent : document.querySelector(".content"),
     }
 
     const bindEvents = function () {
@@ -32,9 +33,18 @@ const dom = (function () {
         cache.lists.appendChild(newList);
     }
 
+    const addListToContent = function (list) {
+        cache.mainContent.innerHTML = "";
+        for (const task in list) {
+            if (task !== "listTitle") {
+                const newTask = document.createElement('div');
+                newTask.textContent = `Title: ${list[task].title} Description: ${list[task].description} Priority: ${list[task].priority} Due date: ${list[task].dueDate}`;
+                cache.mainContent.appendChild(newTask);}}       
+    }
+
     bindEvents();
 
-    return{cache, addListToSidebar};
+    return{cache, addListToSidebar, addListToContent};
 })();
 
 class List {
@@ -77,6 +87,7 @@ const listManager = (function () {
         const currentList = listManager.getCurrentList();
         currentList["task" + i] = task;
         i++;
+        dom.addListToContent(currentList);
         console.log(currentList);
     }
 
@@ -111,4 +122,3 @@ const task1 = new Task("Do homework", "Get good grades", "Tommorow", "High");
 task1.publishTask();
 const task2 = new Task("1", "2", "3", "4");
 task2.publishTask();
-taskManager.removeTask(task1);
