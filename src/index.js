@@ -6,6 +6,7 @@ const dom = (function () {
         newListButton : document.querySelector("#new_list_button"),
         sideBar : document.querySelector(".sidebar"),
         lists : document.querySelector(".lists"),
+        currentListHeading : document.querySelector("h2"),
     }
 
     const bindEvents = function () {
@@ -26,7 +27,7 @@ const dom = (function () {
         newList.textContent = list.listTitle;
         newList.addEventListener('click', () => {
             listManager.changeCurrentList(list);
-            console.log(listManager.getCurrentList());
+            cache.currentListHeading.textContent = list.listTitle;
         })
         cache.lists.appendChild(newList);
     }
