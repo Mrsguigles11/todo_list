@@ -25,3 +25,5 @@ list class  > list manager <     task manager  < task class
               take in new list   delete task
               add new list to    send tasks to dom
               dom   
+
+Put in an X button for pop up form
