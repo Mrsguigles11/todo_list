@@ -11,10 +11,11 @@ const dom = (function () {
         newTaskForm : document.querySelector(".form_container"),
         titleInput : document.querySelector("#title"),
         descriptionInput : document.querySelector("#description"),
-        priorityInput : document.querySelector("#priority"),
+        priorityInput : document.querySelector("input[list]"),
         dueDateInput : document.querySelector("#due_date"),
         formSubmitButton : document.querySelector("#form_submit_button"),
         formOverlay : document.querySelector(".form_overlay"),
+        formCloseButton : document.querySelector("#form_close_button"),
     }
 
     const bindEvents = function () {
@@ -24,14 +25,28 @@ const dom = (function () {
             newList.publishList();
         })
         cache.newTaskButton.addEventListener('click', () => {
-            cache.newTaskForm.style.display = "block";
-            cache.formOverlay.style.display = "block";
+            cache.newTaskForm.style.display = "flex";
+            cache.formOverlay.style.display = "flex";
         })
         cache.formSubmitButton.addEventListener('click', () => {
             const newTask = new Task(cache.titleInput.value, cache.descriptionInput.value, cache.priorityInput.value, cache.dueDateInput.value);
             taskManager.addTaskToList(newTask);
             cache.newTaskForm.style.display = "none";
             cache.formOverlay.style.display = "none";
+            cache.titleInput.value = "";
+            cache.descriptionInput.value = "";
+            cache.priorityInput.value = "";
+            cache.dueDateInput.value = "";
+            cache.dueDateInput.type = 'text';
+        })
+        cache.formCloseButton.addEventListener('click', () => {
+            cache.newTaskForm.style.display = "none";
+            cache.formOverlay.style.display = "none";
+            cache.titleInput.value = "";
+            cache.descriptionInput.value = "";
+            cache.priorityInput.value = "";
+            cache.dueDateInput.value = "";
+            cache.dueDateInput.type = 'text';
         })
     }
 
@@ -132,5 +147,4 @@ class Task {
 
 }
 
-const task1 = new Task("Do homework", "Get good grades", "High", "Tommorow");
-task1.publishTask();
+

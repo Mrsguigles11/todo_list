@@ -7,19 +7,26 @@
 </head>
 <body>
     <div class="form_container">
-        <div class="form_content_container">
-            <form action="">
-                <label for="title">Task name:</label>
-                <input type="text" id="title">
-                <label for="description">Description:</label>
-                <input type="text" id="description">
-                <label for="priority">Priority:</label>
-                <input type="text" id="priority">
-                <label for="due_date">Due date:</label>
-                <input type="text" id="due_date">
-            </form>
-            <button id="form_submit_button">Submit</button>
+        <div class="form_header">
+            <div>New Task</div>
+            <div id="form_close_button">X</div>
         </div>
+        <form action="">
+            <label for="title">Task Title</label>
+            <input type="text" id="title" placeholder="e.g. Do homework">
+            <label for="description">Description</label>
+            <input type="text" id="description" placeholder="Maths equations...">
+            <label for="priority">Priority</label>
+            <input list="priority" placeholder="High, Medium, Low...">
+            <datalist id="priority">
+                <option value="High">
+                <option value="Medium">
+                <option value="Low">
+            </datalist>
+            <label for="due_date">Due date</label>
+            <input type="text" id="due_date" placeholder="Today, Tommorow..." onfocus="(this.type='date')">
+        </form>
+        <button id="form_submit_button">Submit</button>
     </div>
     <div class="form_overlay"></div>
     <div class="sidebar">
