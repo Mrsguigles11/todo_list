@@ -8,45 +8,59 @@ const dom = (function () {
         lists : document.querySelector(".lists"),
         currentListHeading : document.querySelector("h2"),
         taskContent : document.querySelector(".task_content"),
-        newTaskForm : document.querySelector(".form_container"),
-        titleInput : document.querySelector("#title"),
-        descriptionInput : document.querySelector("#description"),
-        priorityInput : document.querySelector("input[list]"),
-        dueDateInput : document.querySelector("#due_date"),
-        formSubmitButton : document.querySelector("#form_submit_button"),
+        newTaskForm : document.querySelector(".task_form_container"),
+        taskTitleInput : document.querySelector("#title"),
+        taskDescriptionInput : document.querySelector("#description"),
+        taskPriorityInput : document.querySelector("input[list]"),
+        taskDueDateInput : document.querySelector("#due_date"),
+        taskSubmitButton : document.querySelector("#form_submit_button"),
         formOverlay : document.querySelector(".form_overlay"),
-        formCloseButton : document.querySelector("#form_close_button"),
+        taskCloseButton : document.querySelector("#form_close_button"),
+        newListForm : document.querySelector(".list_form_container"),
+        listTitleInput : document.querySelector("#list_name"),
+        listCloseButton : document.querySelector("#list_close_button"),
+        listSubmitButton : document.querySelector("#list_submit_button"),
     }
 
     const bindEvents = function () {
         cache.newListButton.addEventListener('click', () => {
-            const listName = prompt("Enter new list name");
-            const newList = new List(listName);
+            cache.newListForm.style.display = "flex";
+            cache.formOverlay.style.display = "flex";
+        })
+        cache.listSubmitButton.addEventListener('click', () => {
+            const newList = new List(cache.listTitleInput.value);
             newList.publishList();
+            cache.newListForm.style.display = "none";
+            cache.formOverlay.style.display = "none";
+        })
+        cache.listCloseButton.addEventListener('click', () => {
+            cache.newListForm.style.display = "none";
+            cache.formOverlay.style.display = "none";
+            cache.listTitleInput.value = "";
         })
         cache.newTaskButton.addEventListener('click', () => {
             cache.newTaskForm.style.display = "flex";
             cache.formOverlay.style.display = "flex";
         })
-        cache.formSubmitButton.addEventListener('click', () => {
-            const newTask = new Task(cache.titleInput.value, cache.descriptionInput.value, cache.priorityInput.value, cache.dueDateInput.value);
+        cache.taskSubmitButton.addEventListener('click', () => {
+            const newTask = new Task(cache.taskTitleInput.value, cache.taskDescriptionInput.value, cache.taskPriorityInput.value, cache.taskDueDateInput.value);
             taskManager.addTaskToList(newTask);
             cache.newTaskForm.style.display = "none";
             cache.formOverlay.style.display = "none";
-            cache.titleInput.value = "";
-            cache.descriptionInput.value = "";
-            cache.priorityInput.value = "";
-            cache.dueDateInput.value = "";
-            cache.dueDateInput.type = 'text';
+            cache.taskTitleInput.value = "";
+            cache.taskDescriptionInput.value = "";
+            cache.taskPriorityInput.value = "";
+            cache.taskDueDateInput.value = "";
+            cache.taskDueDateInput.type = 'text';
         })
-        cache.formCloseButton.addEventListener('click', () => {
+        cache.taskCloseButton.addEventListener('click', () => {
             cache.newTaskForm.style.display = "none";
             cache.formOverlay.style.display = "none";
-            cache.titleInput.value = "";
-            cache.descriptionInput.value = "";
-            cache.priorityInput.value = "";
-            cache.dueDateInput.value = "";
-            cache.dueDateInput.type = 'text';
+            cache.taskTitleInput.value = "";
+            cache.taskDescriptionInput.value = "";
+            cache.taskPriorityInput.value = "";
+            cache.taskDueDateInput.value = "";
+            cache.taskDueDateInput.type = 'text';
         })
     }
 
