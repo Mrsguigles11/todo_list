@@ -66,13 +66,19 @@ const dom = (function () {
 
     const addListToSidebar = function (list) {
         const newList = document.createElement('div');
+        newList.setAttribute('class', 'list');
+        const listContainer = document.createElement('div');
+        listContainer.setAttribute('class', 'list_container');
+        const deleteIcon = document.createElement('img');
+        deleteIcon.setAttribute('src', "./img/inbox_icon.svg");
+        listContainer.append(newList, deleteIcon);
         newList.textContent = list.listTitle;
         newList.addEventListener('click', () => {
             listManager.changeCurrentList(list);
             cache.currentListHeading.textContent = list.listTitle;
             addTasksToContent(list);
         })
-        cache.lists.appendChild(newList);
+        cache.lists.appendChild(listContainer);
     }
 
     const addTasksToContent = function (list) {
