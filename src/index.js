@@ -69,19 +69,22 @@ const dom = (function () {
         listContainer.setAttribute('class', 'list_container');
         const newList = document.createElement('div');
         newList.setAttribute('class', 'list');
+        listContainer.append(newList);
+        if (list.listTitle !== "All Tasks") {
         const deleteIcon = document.createElement('div');
         deleteIcon.textContent = "X";
-        deleteIcon.setAttribute('class', 'list_delete_icon');
-        listContainer.append(newList, deleteIcon);
+        deleteIcon.setAttribute('class', 'list_delete_icon'); 
+        listContainer.append(deleteIcon);
+        deleteIcon.addEventListener('click', () => {
+            listManager.removeList(list);
+            cache.lists.removeChild(listContainer);
+        })
+        }
         newList.textContent = list.listTitle;
         newList.addEventListener('click', () => {
             listManager.changeCurrentList(list);
             cache.currentListHeading.textContent = list.listTitle;
             addTasksToContent(list);
-        })
-        deleteIcon.addEventListener('click', () => {
-            listManager.removeList(list);
-            cache.lists.removeChild(listContainer);
         })
         cache.lists.appendChild(listContainer);
     }
