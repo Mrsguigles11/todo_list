@@ -26,8 +26,7 @@ const dom = (function () {
 
     const bindEvents = function () {
         cache.newListButton.addEventListener('click', () => {
-            cache.newListForm.style.display = "flex";
-            cache.formOverlay.style.display = "flex";
+            toggleFormOn(cache.newListForm);
             cache.listFormTitle.textContent = "New List";
             const listSubmitButton = document.createElement('button');
             listSubmitButton.setAttribute('id', 'list_submit_button');
@@ -36,44 +35,43 @@ const dom = (function () {
             listSubmitButton.addEventListener('click', () => {
                 const newList = new List(cache.listTitleInput.value);
                 newList.publishList();
-                cache.newListForm.style.display = "none";
-                cache.formOverlay.style.display = "none";
-                cache.listTitleInput.value = "";
-                cache.listFormTitle.textContent = "";
+                toggleFormOff(cache.newListForm);
                 cache.newListForm.removeChild(listSubmitButton);
             })
         })
         cache.listCloseButton.addEventListener('click', () => {
-            cache.newListForm.style.display = "none";
-            cache.formOverlay.style.display = "none";
-            cache.listTitleInput.value = "";
+            toggleFormOff(cache.newListForm);
             cache.newListForm.removeChild(cache.newListForm.lastChild);
         })
         cache.newTaskButton.addEventListener('click', () => {
-            cache.newTaskForm.style.display = "flex";
-            cache.formOverlay.style.display = "flex";
+            toggleFormOn(cache.newTaskForm);
         })
         cache.taskSubmitButton.addEventListener('click', () => {
             const newTask = new Task(cache.taskTitleInput.value, cache.taskDescriptionInput.value, cache.taskPriorityInput.value, cache.taskDueDateInput.value);
             taskManager.addTaskToList(newTask);
-            cache.newTaskForm.style.display = "none";
-            cache.formOverlay.style.display = "none";
-            cache.taskTitleInput.value = "";
-            cache.taskDescriptionInput.value = "";
-            cache.taskPriorityInput.value = "";
-            cache.taskDueDateInput.value = "";
-            cache.taskDueDateInput.type = 'text';
+            toggleFormOff(cache.newTaskForm);
         })
         cache.taskCloseButton.addEventListener('click', () => {
-            cache.newTaskForm.style.display = "none";
-            cache.formOverlay.style.display = "none";
-            cache.taskTitleInput.value = "";
-            cache.taskDescriptionInput.value = "";
-            cache.taskPriorityInput.value = "";
-            cache.taskDueDateInput.value = "";
-            cache.taskDueDateInput.type = 'text';
+            toggleFormOff(cache.newTaskForm);
         })
     }
+
+    const toggleFormOn = function (form) {
+        form.style.display = "flex";
+        cache.formOverlay.style.display = "flex";
+    } 
+
+    const toggleFormOff = function (form) {
+        form.style.display = "none";
+        cache.formOverlay.style.display = "none";
+        cache.listTitleInput.value = "";
+        cache.listFormTitle.textContent = "";
+        cache.taskTitleInput.value = "";
+        cache.taskDescriptionInput.value = "";
+        cache.taskPriorityInput.value = "";
+        cache.taskDueDateInput.value = "";
+        cache.taskDueDateInput.type = 'text';
+        } 
 
     const addListToSidebar = function (list) {
         const listContainer = document.createElement('div');
@@ -87,8 +85,7 @@ const dom = (function () {
         editIcon.setAttribute('class', 'list_edit_icon'); 
         listContainer.append(editIcon);
         editIcon.addEventListener('click', () => {
-            cache.newListForm.style.display = "flex";
-            cache.formOverlay.style.display = "flex";
+            toggleFormOn(cache.newListForm);
             cache.listFormTitle.textContent = `Edit ${list.listTitle}`;
             const editListSubmitButton = document.createElement('button');
             editListSubmitButton.setAttribute('id', 'list_submit_button');
@@ -96,9 +93,7 @@ const dom = (function () {
             editListSubmitButton.addEventListener('click', () => {
                 list.listTitle = cache.listTitleInput.value;
                 newList.textContent = list.listTitle;
-                cache.newListForm.style.display = "none";
-                cache.formOverlay.style.display = "none";
-                cache.listTitleInput.value = "";
+                toggleFormOff(cache.newListForm);
                 cache.newListForm.removeChild(buttonContainer);
             })
             const removeButton = document.createElement('button');
@@ -107,9 +102,7 @@ const dom = (function () {
             removeButton.addEventListener('click', () => {
                 listManager.removeList(list);
                 cache.lists.removeChild(listContainer);
-                cache.newListForm.style.display = "none";
-                cache.formOverlay.style.display = "none";
-                cache.listTitleInput.value = "";
+                toggleFormOff(cache.newListForm);
                 cache.newListForm.removeChild(buttonContainer);
             })
             const buttonContainer = document.createElement('div');
