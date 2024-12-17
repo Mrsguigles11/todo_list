@@ -65,18 +65,23 @@ const dom = (function () {
     }
 
     const addListToSidebar = function (list) {
-        const newList = document.createElement('div');
-        newList.setAttribute('class', 'list');
         const listContainer = document.createElement('div');
         listContainer.setAttribute('class', 'list_container');
-        const deleteIcon = document.createElement('img');
-        deleteIcon.setAttribute('src', "./img/inbox_icon.svg");
+        const newList = document.createElement('div');
+        newList.setAttribute('class', 'list');
+        const deleteIcon = document.createElement('div');
+        deleteIcon.textContent = "X";
+        deleteIcon.setAttribute('class', 'list_delete_icon');
         listContainer.append(newList, deleteIcon);
         newList.textContent = list.listTitle;
         newList.addEventListener('click', () => {
             listManager.changeCurrentList(list);
             cache.currentListHeading.textContent = list.listTitle;
             addTasksToContent(list);
+        })
+        deleteIcon.addEventListener('click', () => {
+            listManager.removeList(list);
+            cache.lists.removeChild(listContainer);
         })
         cache.lists.appendChild(listContainer);
     }
@@ -125,7 +130,16 @@ const listManager = (function () {
         currentList = list;
     }
 
-    return{addList, getCurrentList, changeCurrentList}
+    const removeList = function (list) {
+        for (let i = 0; i < lists.length; i++) {
+            if (lists[i] === list) {
+                lists.splice(i, 1);
+            }
+        }
+        console.log(lists);
+    }
+
+    return{addList, getCurrentList, changeCurrentList, removeList}
  })();
 
  const taskManager = (function () {
@@ -166,5 +180,4 @@ class Task {
     }
 
 }
-
 

@@ -38,10 +38,11 @@ body {
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    flex-wrap: wrap;
 }
 
 .sidebar_header > svg {
-    width: 5vh;
+    width: 60px;
     padding-bottom: 3px;
     fill: white;
 }
@@ -65,10 +66,18 @@ h1 {
 
 .list_container {
     width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 #new_list_button {
     padding: 10px 15px;
+}
+
+.list_delete_icon {
+    cursor: pointer;
+    font-weight: 600;
 }
 
 .header {
