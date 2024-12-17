@@ -21,12 +21,14 @@ const dom = (function () {
         listTitleInput : document.querySelector("#list_name"),
         listCloseButton : document.querySelector("#list_close_button"),
         listSubmitButton : document.querySelector("#list_submit_button"),
+        listFormTitle : document.querySelector("#list_form_title"),
     }
 
     const bindEvents = function () {
         cache.newListButton.addEventListener('click', () => {
             cache.newListForm.style.display = "flex";
             cache.formOverlay.style.display = "flex";
+            cache.listFormTitle.textContent = "New List";
             const listSubmitButton = document.createElement('button');
             listSubmitButton.setAttribute('id', 'list_submit_button');
             listSubmitButton.textContent = "Submit";
@@ -37,6 +39,7 @@ const dom = (function () {
                 cache.newListForm.style.display = "none";
                 cache.formOverlay.style.display = "none";
                 cache.listTitleInput.value = "";
+                cache.listFormTitle.textContent = "";
                 cache.newListForm.removeChild(listSubmitButton);
             })
         })
@@ -86,6 +89,7 @@ const dom = (function () {
         editIcon.addEventListener('click', () => {
             cache.newListForm.style.display = "flex";
             cache.formOverlay.style.display = "flex";
+            cache.listFormTitle.textContent = "Edit List";
             const editListSubmitButton = document.createElement('button');
             editListSubmitButton.setAttribute('id', 'list_submit_button');
             editListSubmitButton.textContent = "Submit";
