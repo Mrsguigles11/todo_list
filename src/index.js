@@ -1,4 +1,5 @@
 import "./styles.css";
+import listEditIcon from "./img/pencil_edited.svg";
 
 const dom = (function () {
     const cache = {
@@ -26,17 +27,24 @@ const dom = (function () {
         cache.newListButton.addEventListener('click', () => {
             cache.newListForm.style.display = "flex";
             cache.formOverlay.style.display = "flex";
-        })
-        cache.listSubmitButton.addEventListener('click', () => {
-            const newList = new List(cache.listTitleInput.value);
-            newList.publishList();
-            cache.newListForm.style.display = "none";
-            cache.formOverlay.style.display = "none";
+            const listSubmitButton = document.createElement('button');
+            listSubmitButton.setAttribute('id', 'list_submit_button');
+            listSubmitButton.textContent = "Submit";
+            cache.newListForm.append(listSubmitButton);
+            listSubmitButton.addEventListener('click', () => {
+                const newList = new List(cache.listTitleInput.value);
+                newList.publishList();
+                cache.newListForm.style.display = "none";
+                cache.formOverlay.style.display = "none";
+                cache.listTitleInput.value = "";
+                cache.newListForm.removeChild(listSubmitButton);
+            })
         })
         cache.listCloseButton.addEventListener('click', () => {
             cache.newListForm.style.display = "none";
             cache.formOverlay.style.display = "none";
             cache.listTitleInput.value = "";
+            cache.newListForm.removeChild(cache.newListForm.lastChild);
         })
         cache.newTaskButton.addEventListener('click', () => {
             cache.newTaskForm.style.display = "flex";
@@ -71,13 +79,25 @@ const dom = (function () {
         newList.setAttribute('class', 'list');
         listContainer.append(newList);
         if (list.listTitle !== "All Tasks") {
-        const deleteIcon = document.createElement('div');
-        deleteIcon.textContent = "X";
-        deleteIcon.setAttribute('class', 'list_delete_icon'); 
-        listContainer.append(deleteIcon);
-        deleteIcon.addEventListener('click', () => {
-            listManager.removeList(list);
-            cache.lists.removeChild(listContainer);
+        const editIcon = document.createElement('img');
+        editIcon.src = listEditIcon;
+        editIcon.setAttribute('class', 'list_edit_icon'); 
+        listContainer.append(editIcon);
+        editIcon.addEventListener('click', () => {
+            cache.newListForm.style.display = "flex";
+            cache.formOverlay.style.display = "flex";
+            const editListSubmitButton = document.createElement('button');
+            editListSubmitButton.setAttribute('id', 'list_submit_button');
+            editListSubmitButton.textContent = "Submit";
+            cache.newListForm.append(editListSubmitButton);
+            editListSubmitButton.addEventListener('click', () => {
+                list.listTitle = cache.listTitleInput.value;
+                newList.textContent = list.listTitle;
+                cache.newListForm.style.display = "none";
+                cache.formOverlay.style.display = "none";
+                cache.listTitleInput.value = "";
+                cache.newListForm.removeChild(editListSubmitButton);
+            })
         })
         }
         newList.textContent = list.listTitle;
@@ -139,7 +159,6 @@ const listManager = (function () {
                 lists.splice(i, 1);
             }
         }
-        console.log(lists);
     }
 
     return{addList, getCurrentList, changeCurrentList, removeList}

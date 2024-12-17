@@ -75,9 +75,9 @@ h1 {
     padding: 10px 15px;
 }
 
-.list_delete_icon {
+.list_edit_icon {
     cursor: pointer;
-    font-weight: 600;
+    width: 25px;
 }
 
 .header {
