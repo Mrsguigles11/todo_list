@@ -89,19 +89,33 @@ const dom = (function () {
         editIcon.addEventListener('click', () => {
             cache.newListForm.style.display = "flex";
             cache.formOverlay.style.display = "flex";
-            cache.listFormTitle.textContent = "Edit List";
+            cache.listFormTitle.textContent = `Edit ${list.listTitle}`;
             const editListSubmitButton = document.createElement('button');
             editListSubmitButton.setAttribute('id', 'list_submit_button');
             editListSubmitButton.textContent = "Submit";
-            cache.newListForm.append(editListSubmitButton);
             editListSubmitButton.addEventListener('click', () => {
                 list.listTitle = cache.listTitleInput.value;
                 newList.textContent = list.listTitle;
                 cache.newListForm.style.display = "none";
                 cache.formOverlay.style.display = "none";
                 cache.listTitleInput.value = "";
-                cache.newListForm.removeChild(editListSubmitButton);
+                cache.newListForm.removeChild(buttonContainer);
             })
+            const removeButton = document.createElement('button');
+            removeButton.textContent = "Delete";
+            removeButton.setAttribute('class', 'list_remove_button');
+            removeButton.addEventListener('click', () => {
+                listManager.removeList(list);
+                cache.lists.removeChild(listContainer);
+                cache.newListForm.style.display = "none";
+                cache.formOverlay.style.display = "none";
+                cache.listTitleInput.value = "";
+                cache.newListForm.removeChild(buttonContainer);
+            })
+            const buttonContainer = document.createElement('div');
+            buttonContainer.setAttribute('class', 'button_container');
+            buttonContainer.append(removeButton, editListSubmitButton);
+            cache.newListForm.append(buttonContainer);
         })
         }
         newList.textContent = list.listTitle;
