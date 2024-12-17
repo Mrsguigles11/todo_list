@@ -109,7 +109,9 @@ h3 {
 }
 
 #new_task_button {
-    font-size: 2rem;
+    width: 60px;
+    fill: white;
+    cursor: pointer;
 }
 
 .content {
