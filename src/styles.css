@@ -126,9 +126,13 @@ h3 {
 .task {
     display: grid;
     grid-template-columns: 4fr 1fr;
-    box-shadow: 0px 1px 3px 0px black ;
+    box-shadow: 0px 1px 3px 0px var(--header-colour) ;
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 5px;
+}
+
+.task:hover {
+    background-color: rgb(231, 231, 231);
 }
 
 .task_info_container {
@@ -167,6 +171,12 @@ h3 {
     width: 25vw;
     padding-bottom: 25px;
     border-radius: 10px;
+}
+
+.task_icon {
+    width: 18px;
+    margin-bottom: 2px;
+    cursor: pointer;
 }
 
 .form_header {

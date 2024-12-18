@@ -1,5 +1,7 @@
 import "./styles.css";
 import listEditIcon from "./img/pencil_edited.svg";
+import taskEditIcon from "./img/pencil.svg";
+import taskDeleteIcon from "./img/delete.svg";
 
 const dom = (function () {
     const cache = {
@@ -148,8 +150,12 @@ const dom = (function () {
                 taskPriority.textContent = list[task].priority;
                 const taskDueDate = Object.assign(document.createElement('div'));
                 taskDueDate.textContent = list[task].dueDate;
+                const editTask = Object.assign(document.createElement('img'), {classList:'task_icon'});
+                editTask.src = taskEditIcon;
+                const deleteTask = Object.assign(document.createElement('img'), {classList:'task_icon'});
+                deleteTask.src = taskDeleteIcon;
                 const taskInfoContainer = Object.assign(document.createElement('div'), {classList:'task_info_container'});
-                taskInfoContainer.append(taskPriority, taskDueDate);
+                taskInfoContainer.append(taskPriority, taskDueDate, editTask, deleteTask);
                 newTask.append(titleDescriptionContainer, taskInfoContainer);
                 cache.taskContent.appendChild(newTask);}}       
     }
@@ -209,7 +215,6 @@ const listManager = (function () {
         currentList["task" + i] = task;
         i++;
         dom.addTasksToContent(currentList);
-        console.log(currentList);
     }
 
     const removeTask = function (task) {
@@ -217,7 +222,6 @@ const listManager = (function () {
         for (const key in currentList) {
             if (currentList[key].title === task.title) {
                 delete currentList[key];
-                console.log(currentList);
             }
         }
         dom.addTasksToContent(currentList);
@@ -240,3 +244,5 @@ class Task {
 
 }
 
+const testTask = new Task("Homework", "Maths", "High", "03/07/1996");
+testTask.publishTask();
