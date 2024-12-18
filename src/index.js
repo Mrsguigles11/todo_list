@@ -8,7 +8,7 @@ const dom = (function () {
         sideBar : document.querySelector(".sidebar"),
         lists : document.querySelector(".lists"),
         currentListHeading : document.querySelector("h2"),
-        taskContent : document.querySelector(".task_content"),
+        taskContent : document.querySelector(".content"),
         newTaskForm : document.querySelector(".task_form_container"),
         taskTitleInput : document.querySelector("#title"),
         taskDescriptionInput : document.querySelector("#description"),
@@ -137,7 +137,20 @@ const dom = (function () {
         for (const task in list) {
             if (task !== "listTitle") {
                 const newTask = document.createElement('div');
-                newTask.textContent = `Title: ${list[task].title} Description: ${list[task].description} Priority: ${list[task].priority} Due date: ${list[task].dueDate}`;
+                newTask.setAttribute('class', 'task');
+                const taskTitle = Object.assign(document.createElement('div'), {classList:"task_title"});
+                taskTitle.textContent = list[task].title;
+                const taskDescription = Object.assign(document.createElement('div'), {classList:'task_description'});
+                taskDescription.textContent = list[task].description;
+                const titleDescriptionContainer = Object.assign(document.createElement('div'), {classList:'task_description_container'});
+                titleDescriptionContainer.append(taskTitle, taskDescription);
+                const taskPriority = Object.assign(document.createElement('div'));
+                taskPriority.textContent = list[task].priority;
+                const taskDueDate = Object.assign(document.createElement('div'));
+                taskDueDate.textContent = list[task].dueDate;
+                const taskInfoContainer = Object.assign(document.createElement('div'), {classList:'task_info_container'});
+                taskInfoContainer.append(taskPriority, taskDueDate);
+                newTask.append(titleDescriptionContainer, taskInfoContainer);
                 cache.taskContent.appendChild(newTask);}}       
     }
 
