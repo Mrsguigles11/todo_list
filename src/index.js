@@ -26,18 +26,7 @@ const dom = (function () {
 
     const bindEvents = function () {
         cache.newListButton.addEventListener('click', () => {
-            toggleFormOn(cache.newListForm);
-            cache.listFormTitle.textContent = "New List";
-            const listSubmitButton = document.createElement('button');
-            listSubmitButton.setAttribute('id', 'list_submit_button');
-            listSubmitButton.textContent = "Submit";
-            cache.newListForm.append(listSubmitButton);
-            listSubmitButton.addEventListener('click', () => {
-                const newList = new List(cache.listTitleInput.value);
-                newList.publishList();
-                toggleFormOff(cache.newListForm);
-                cache.newListForm.removeChild(listSubmitButton);
-            })
+            renderForm.newListForm();
         })
         cache.listCloseButton.addEventListener('click', () => {
             toggleFormOff(cache.newListForm);
@@ -61,6 +50,53 @@ const dom = (function () {
         cache.formOverlay.style.display = "flex";
     } 
 
+    const renderForm = (function () {
+        const newListForm = function () {
+            toggleFormOn(cache.newListForm);
+            cache.listFormTitle.textContent = "New List";
+            const listSubmitButton = document.createElement('button');
+            listSubmitButton.setAttribute('id', 'list_submit_button');
+            listSubmitButton.textContent = "Submit";
+            cache.newListForm.append(listSubmitButton);
+            listSubmitButton.addEventListener('click', () => {
+                const newList = new List(cache.listTitleInput.value);
+                newList.publishList();
+                toggleFormOff(cache.newListForm);
+                cache.newListForm.removeChild(listSubmitButton);
+            })
+        }
+
+        const editListForm = function (list, container, listHeading) {
+            toggleFormOn(cache.newListForm);
+            cache.listFormTitle.textContent = `Edit ${list.listTitle}`;
+            const editListSubmitButton = document.createElement('button');
+            editListSubmitButton.setAttribute('id', 'list_submit_button');
+            editListSubmitButton.textContent = "Submit";
+            editListSubmitButton.addEventListener('click', () => {
+                list.listTitle = cache.listTitleInput.value;
+                listHeading.textContent = list.listTitle;
+                toggleFormOff(cache.newListForm);
+                cache.newListForm.removeChild(buttonContainer);
+            })
+            const removeButton = document.createElement('button');
+            removeButton.textContent = "Delete";
+            removeButton.setAttribute('class', 'list_remove_button');
+            removeButton.addEventListener('click', () => {
+                listManager.removeList(list);
+                cache.lists.removeChild(container);
+                toggleFormOff(cache.newListForm);
+                cache.newListForm.removeChild(buttonContainer);
+                })
+            const buttonContainer = document.createElement('div');
+            buttonContainer.setAttribute('class', 'button_container');
+            buttonContainer.append(removeButton, editListSubmitButton);
+            cache.newListForm.append(buttonContainer);
+        }
+
+        return {newListForm, editListForm}
+
+    })();
+
     const toggleFormOff = function (form) {
         form.style.display = "none";
         cache.formOverlay.style.display = "none";
@@ -80,37 +116,13 @@ const dom = (function () {
         newList.setAttribute('class', 'list');
         listContainer.append(newList);
         if (list.listTitle !== "All Tasks") {
-        const editIcon = document.createElement('img');
-        editIcon.src = listEditIcon;
-        editIcon.setAttribute('class', 'list_edit_icon'); 
-        listContainer.append(editIcon);
-        editIcon.addEventListener('click', () => {
-            toggleFormOn(cache.newListForm);
-            cache.listFormTitle.textContent = `Edit ${list.listTitle}`;
-            const editListSubmitButton = document.createElement('button');
-            editListSubmitButton.setAttribute('id', 'list_submit_button');
-            editListSubmitButton.textContent = "Submit";
-            editListSubmitButton.addEventListener('click', () => {
-                list.listTitle = cache.listTitleInput.value;
-                newList.textContent = list.listTitle;
-                toggleFormOff(cache.newListForm);
-                cache.newListForm.removeChild(buttonContainer);
-            })
-            const removeButton = document.createElement('button');
-            removeButton.textContent = "Delete";
-            removeButton.setAttribute('class', 'list_remove_button');
-            removeButton.addEventListener('click', () => {
-                listManager.removeList(list);
-                cache.lists.removeChild(listContainer);
-                toggleFormOff(cache.newListForm);
-                cache.newListForm.removeChild(buttonContainer);
-            })
-            const buttonContainer = document.createElement('div');
-            buttonContainer.setAttribute('class', 'button_container');
-            buttonContainer.append(removeButton, editListSubmitButton);
-            cache.newListForm.append(buttonContainer);
-        })
-        }
+            const editIcon = document.createElement('img');
+            editIcon.src = listEditIcon;
+            editIcon.setAttribute('class', 'list_edit_icon'); 
+            listContainer.append(editIcon);
+            editIcon.addEventListener('click', () => {
+                renderForm.editListForm(list, listContainer, newList);
+            })}
         newList.textContent = list.listTitle;
         newList.addEventListener('click', () => {
             listManager.changeCurrentList(list);
@@ -168,6 +180,7 @@ const listManager = (function () {
         for (let i = 0; i < lists.length; i++) {
             if (lists[i] === list) {
                 lists.splice(i, 1);
+                currentList = lists[i-1];
             }
         }
     }
