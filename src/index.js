@@ -140,6 +140,7 @@ const dom = (function () {
             if (task !== "listTitle") {
                 const newTask = document.createElement('div');
                 newTask.setAttribute('class', 'task');
+                cache.taskContent.appendChild(newTask);
                 const taskTitle = Object.assign(document.createElement('div'), {classList:"task_title"});
                 taskTitle.textContent = list[task].title;
                 const taskDescription = Object.assign(document.createElement('div'), {classList:'task_description'});
@@ -154,10 +155,14 @@ const dom = (function () {
                 editTask.src = taskEditIcon;
                 const deleteTask = Object.assign(document.createElement('img'), {classList:'task_icon'});
                 deleteTask.src = taskDeleteIcon;
+                deleteTask.addEventListener('click', () => {
+                    cache.taskContent.removeChild(newTask);
+                    taskManager.removeTask(list[task]);
+                })
                 const taskInfoContainer = Object.assign(document.createElement('div'), {classList:'task_info_container'});
                 taskInfoContainer.append(taskPriority, taskDueDate, editTask, deleteTask);
                 newTask.append(titleDescriptionContainer, taskInfoContainer);
-                cache.taskContent.appendChild(newTask);}}       
+                }}       
     }
 
     bindEvents();
@@ -222,6 +227,7 @@ const listManager = (function () {
         for (const key in currentList) {
             if (currentList[key].title === task.title) {
                 delete currentList[key];
+                console.log(currentList);
             }
         }
         dom.addTasksToContent(currentList);
