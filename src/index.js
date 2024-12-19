@@ -11,7 +11,8 @@ const dom = (function () {
         lists : document.querySelector(".lists"),
         currentListHeading : document.querySelector("h2"),
         taskContent : document.querySelector(".content"),
-        newTaskForm : document.querySelector(".task_form_container"),
+        taskForm : document.querySelector(".task_form_container"),
+        taskFormHeading : document.querySelector('#task_form_heading'),
         taskTitleInput : document.querySelector("#title"),
         taskDescriptionInput : document.querySelector("#description"),
         taskPriorityInput : document.querySelector("input[list]"),
@@ -35,15 +36,10 @@ const dom = (function () {
             cache.newListForm.removeChild(cache.newListForm.lastChild);
         })
         cache.newTaskButton.addEventListener('click', () => {
-            toggleFormOn(cache.newTaskForm);
-        })
-        cache.taskSubmitButton.addEventListener('click', () => {
-            const newTask = new Task(cache.taskTitleInput.value, cache.taskDescriptionInput.value, cache.taskPriorityInput.value, cache.taskDueDateInput.value);
-            taskManager.addTaskToList(newTask);
-            toggleFormOff(cache.newTaskForm);
+            renderForm.newTaskForm();
         })
         cache.taskCloseButton.addEventListener('click', () => {
-            toggleFormOff(cache.newTaskForm);
+            toggleFormOff(cache.taskForm);
         })
     }
 
@@ -95,7 +91,30 @@ const dom = (function () {
             cache.newListForm.append(buttonContainer);
         }
 
-        return {newListForm, editListForm}
+        const newTaskForm = function () {
+            toggleFormOn(cache.taskForm);
+            cache.taskFormHeading.textContent = "New Task";
+            const newTaskSubmitButton = Object.assign(document.createElement('button'), {id : "new_task_submit_button"});
+            newTaskSubmitButton.textContent = "Submit";
+            newTaskSubmitButton.addEventListener('click', () => {
+                const newTask = new Task(cache.taskTitleInput.value, cache.taskDescriptionInput.value, cache.taskPriorityInput.value, cache.taskDueDateInput.value);
+                taskManager.addTaskToList(newTask);
+                toggleFormOff(cache.taskForm);
+                cache.taskForm.removeChild(cache.taskForm.lastChild);
+            });
+            cache.taskForm.append(newTaskSubmitButton);
+        } 
+
+        const editTaskForm = function (task) {
+            toggleFormOn(cache.taskForm);
+            cache.taskFormHeading.textContent = `Edit Task ${task.title}`;
+            cache.taskTitleInput.value = task.title;
+            cache.taskDescriptionInput.value = task.description;
+            cache.taskPriorityInput.value = task.priority;
+            cache.taskDueDateInput.value = task.dueDate;
+        }
+
+        return {newListForm, editListForm, editTaskForm, newTaskForm}
 
     })();
 
@@ -153,6 +172,9 @@ const dom = (function () {
                 taskDueDate.textContent = list[task].dueDate;
                 const editTask = Object.assign(document.createElement('img'), {classList:'task_icon'});
                 editTask.src = taskEditIcon;
+                editTask.addEventListener('click', () => {
+                    renderForm.editTaskForm(list[task]);
+                })
                 const deleteTask = Object.assign(document.createElement('img'), {classList:'task_icon'});
                 deleteTask.src = taskDeleteIcon;
                 deleteTask.addEventListener('click', () => {
