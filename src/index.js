@@ -94,7 +94,7 @@ const dom = (function () {
         const newTaskForm = function () {
             toggleFormOn(cache.taskForm);
             cache.taskFormHeading.textContent = "New Task";
-            const newTaskSubmitButton = Object.assign(document.createElement('button'), {id : "new_task_submit_button"});
+            const newTaskSubmitButton = Object.assign(document.createElement('button'), {id : "task_submit_button"});
             newTaskSubmitButton.textContent = "Submit";
             newTaskSubmitButton.addEventListener('click', () => {
                 const newTask = new Task(cache.taskTitleInput.value, cache.taskDescriptionInput.value, cache.taskPriorityInput.value, cache.taskDueDateInput.value);
@@ -112,6 +112,18 @@ const dom = (function () {
             cache.taskDescriptionInput.value = task.description;
             cache.taskPriorityInput.value = task.priority;
             cache.taskDueDateInput.value = task.dueDate;
+            const editTaskSubmitButton = Object.assign(document.createElement('button'), {id : "task_submit_button"});
+            editTaskSubmitButton.textContent = "Submit";
+            editTaskSubmitButton.addEventListener('click', () => {
+                task.title = cache.taskTitleInput.value;
+                task.description = cache.taskDescriptionInput.value;
+                task.priority = cache.taskPriorityInput.value;
+                task.dueDate = cache.taskDueDateInput.value;
+                toggleFormOff(cache.taskForm);
+                cache.taskForm.removeChild(cache.taskForm.lastChild);
+                addTasksToContent(listManager.getCurrentList());
+            })
+            cache.taskForm.append(editTaskSubmitButton);
         }
 
         return {newListForm, editListForm, editTaskForm, newTaskForm}
@@ -185,6 +197,7 @@ const dom = (function () {
                 taskInfoContainer.append(taskPriority, taskDueDate, editTask, deleteTask);
                 newTask.append(titleDescriptionContainer, taskInfoContainer);
                 }}       
+        console.log(list);
     }
 
     bindEvents();

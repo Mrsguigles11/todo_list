@@ -213,7 +213,7 @@ input {
     font-weight: 100;
 }
 
-#new_task_submit_button, #list_submit_button{
+#task_submit_button, #list_submit_button{
     color: white;
     background-color: var(--sidebar-colour);
     margin: 10px 25px 0px 0px;
@@ -233,7 +233,7 @@ input {
     background-color: rgb(158, 19, 19);
 }
 
-#list_submit_button:hover, #new_task_submit_button:hover {
+#list_submit_button:hover, #task_submit_button:hover {
     background-color: #1eb9d1;
 }
 
