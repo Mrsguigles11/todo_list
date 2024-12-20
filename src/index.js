@@ -198,9 +198,16 @@ const dom = (function () {
                 checkTask.setAttribute('type', 'checkbox');
                 checkTask.setAttribute('class', 'task_check_box');
                 checkTask.checked = false;
-                if (checkTask.checked) {
-                    console.log("worked");
-                };
+                checkTask.addEventListener('click', () => {
+                    if (checkTask.checked == true) {
+                        taskTitle.style.textDecoration = "line-through";
+                        taskDescription.style.textDecoration = "line-through";
+                    }
+                    else {
+                        taskTitle.style.textDecoration = "none";
+                        taskDescription.style.textDecoration = "none";
+                    }
+                })
                 const taskInfoContainer = Object.assign(document.createElement('div'), {classList:'task_info_container'});
                 taskInfoContainer.append(taskPriority, taskDueDate, editTask, deleteTask, checkTask);
                 newTask.append(titleDescriptionContainer, taskInfoContainer);
