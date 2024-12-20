@@ -40,6 +40,7 @@ const dom = (function () {
         })
         cache.taskCloseButton.addEventListener('click', () => {
             toggleFormOff(cache.taskForm);
+            cache.taskForm.removeChild(cache.taskForm.lastChild);
         })
     }
 
@@ -193,11 +194,17 @@ const dom = (function () {
                     cache.taskContent.removeChild(newTask);
                     taskManager.removeTask(list[task]);
                 })
+                const checkTask = document.createElement('input');
+                checkTask.setAttribute('type', 'checkbox');
+                checkTask.setAttribute('class', 'task_check_box');
+                checkTask.checked = false;
+                if (checkTask.checked) {
+                    console.log("worked");
+                };
                 const taskInfoContainer = Object.assign(document.createElement('div'), {classList:'task_info_container'});
-                taskInfoContainer.append(taskPriority, taskDueDate, editTask, deleteTask);
+                taskInfoContainer.append(taskPriority, taskDueDate, editTask, deleteTask, checkTask);
                 newTask.append(titleDescriptionContainer, taskInfoContainer);
                 }}       
-        console.log(list);
     }
 
     bindEvents();
