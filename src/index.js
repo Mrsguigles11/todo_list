@@ -219,6 +219,19 @@ const dom = (function () {
     return{cache, addListToSidebar, addTasksToContent};
 })();
 
+const localStorageManager = (function () {
+    
+    const setList = function (list) {
+        localStorage[list.listTitle] = JSON.stringify(list);
+    }
+
+    const removeList = function (list) {
+        localStorage.removeItem(list.listTitle);
+    }
+
+    return {setList, removeList}
+})();
+
 class List {
     constructor(listTitle) {
         this.listTitle = listTitle;
@@ -231,14 +244,13 @@ class List {
 }
 
 const listManager = (function () {
-    const allTasks = new List ("All Tasks");
-    dom.addListToSidebar(allTasks);
-    let currentList = allTasks;
-    const lists = [allTasks];
+    
+    let currentList = "";
+    const lists = [];
 
     const addList = function(list) {
         lists.push(list);
-        localStorageManager.storageAddList(list);
+        localStorageManager.setList(list);
         dom.addListToSidebar(list);
     }
 
@@ -255,10 +267,14 @@ const listManager = (function () {
             if (lists[i] === list) {
                 lists.splice(i, 1);
                 currentList = lists[i-1];
-                localStorageManager.storageRemoveList(list);
+                localStorageManager.removeList(list);
             }
         }
     }
+
+    const allTasks = new List ("All Tasks");
+    addList(allTasks);
+    changeCurrentList(allTasks);
 
     return{addList, getCurrentList, changeCurrentList, removeList}
  })();
@@ -271,6 +287,7 @@ const listManager = (function () {
         currentList["task" + i] = task;
         i++;
         dom.addTasksToContent(currentList);
+        localStorageManager.setList(currentList);
     }
 
     const removeTask = function (task) {
@@ -278,7 +295,7 @@ const listManager = (function () {
         for (const key in currentList) {
             if (currentList[key].title === task.title) {
                 delete currentList[key];
-                console.log(currentList);
+                localStorageManager.setList(currentList);
             }
         }
         dom.addTasksToContent(currentList);
@@ -301,21 +318,6 @@ class Task {
 
 }
 
-const testTask = new Task("Homework", "Maths", "High", "03/07/1996");
-testTask.publishTask();
 
-const localStorageManager = (function () {
-    localStorage.setItem("testTask", JSON.stringify(testTask));
-    console.log(JSON.parse(localStorage.getItem("testTask")));
 
-    const storageAddList = function (list) {
-        localStorage[list.listTitle] = JSON.stringify(list);
-    }
-
-    const storageRemoveList = function (list) {
-        localStorage.removeItem(list.listTitle);
-    }
-
-    return {storageAddList, storageRemoveList}
-})();
 
