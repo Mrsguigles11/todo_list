@@ -238,6 +238,7 @@ const listManager = (function () {
 
     const addList = function(list) {
         lists.push(list);
+        localStorageManager.storageAddList(list);
         dom.addListToSidebar(list);
     }
 
@@ -254,6 +255,7 @@ const listManager = (function () {
             if (lists[i] === list) {
                 lists.splice(i, 1);
                 currentList = lists[i-1];
+                localStorageManager.storageRemoveList(list);
             }
         }
     }
@@ -301,3 +303,19 @@ class Task {
 
 const testTask = new Task("Homework", "Maths", "High", "03/07/1996");
 testTask.publishTask();
+
+const localStorageManager = (function () {
+    localStorage.setItem("testTask", JSON.stringify(testTask));
+    console.log(JSON.parse(localStorage.getItem("testTask")));
+
+    const storageAddList = function (list) {
+        localStorage[list.listTitle] = JSON.stringify(list);
+    }
+
+    const storageRemoveList = function (list) {
+        localStorage.removeItem(list.listTitle);
+    }
+
+    return {storageAddList, storageRemoveList}
+})();
+
