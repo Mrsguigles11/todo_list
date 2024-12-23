@@ -321,12 +321,22 @@ class Task {
 
 const onPageLoad = (function () {
     const lists = {...localStorage};
+
+    const loadLists = function () {
     for (const list in lists) {
         const storageList = JSON.parse(localStorage.getItem(list));
         listManager.insertStorageList(storageList);
+    }}
+
+    const createDefaultList = function () {
+    const allTasks = JSON.parse(localStorage.getItem("All Tasks"));
+    console.log(allTasks);
+    dom.addTasksToContent(allTasks);
+    listManager.changeCurrentList(allTasks);
     }
-    // const allTasks = Object.keys(lists)[0];
-    // dom.addTasksToContent(allTasks);
+
+    createDefaultList();
+    loadLists();
 })();
 
 
