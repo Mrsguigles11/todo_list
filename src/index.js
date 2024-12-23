@@ -272,11 +272,12 @@ const listManager = (function () {
         }
     }
 
-    const allTasks = new List ("All Tasks");
-    addList(allTasks);
-    changeCurrentList(allTasks);
+    const insertStorageList = function (list) {
+        lists.push(list);
+        dom.addListToSidebar(list);
+    }
 
-    return{addList, getCurrentList, changeCurrentList, removeList}
+    return{addList, getCurrentList, changeCurrentList, removeList, insertStorageList}
  })();
 
  const taskManager = (function () {
@@ -317,6 +318,16 @@ class Task {
     }
 
 }
+
+const onPageLoad = (function () {
+    const lists = {...localStorage};
+    for (const list in lists) {
+        const storageList = JSON.parse(localStorage.getItem(list));
+        listManager.insertStorageList(storageList);
+    }
+    // const allTasks = Object.keys(lists)[0];
+    // dom.addTasksToContent(allTasks);
+})();
 
 
 
