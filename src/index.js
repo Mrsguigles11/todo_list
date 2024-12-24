@@ -329,11 +329,15 @@ const onPageLoad = (function () {
     }}
 
     const createDefaultList = function () {
-    const allTasks = JSON.parse(localStorage.getItem("All Tasks"));
-    console.log(allTasks);
-    dom.addTasksToContent(allTasks);
-    listManager.changeCurrentList(allTasks);
-    }
+    if ('All Tasks' in lists) {
+        const allTasks = JSON.parse(localStorage.getItem("All Tasks"));
+        dom.addTasksToContent(allTasks);
+        listManager.changeCurrentList(allTasks);
+    } 
+    else {
+        const allTasks = new List("All Tasks");
+        allTasks.publishList();
+    } }
 
     createDefaultList();
     loadLists();
