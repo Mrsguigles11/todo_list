@@ -275,6 +275,7 @@ const listManager = (function () {
     const insertStorageList = function (list) {
         lists.push(list);
         dom.addListToSidebar(list);
+        console.log(lists);
     }
 
     return{addList, getCurrentList, changeCurrentList, removeList, insertStorageList}
