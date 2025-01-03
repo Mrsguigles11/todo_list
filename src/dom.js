@@ -90,6 +90,7 @@ const renderForm = (function () {
                 toggleFormOff(cache.newListForm);
                 cache.newListForm.removeChild(buttonContainer);
                 cache.currentListHeading.textContent = getCurrentList().listTitle;
+                addTasksToContent(getCurrentList());
                 })
             const buttonContainer = document.createElement('div');
             buttonContainer.setAttribute('class', 'button_container');
