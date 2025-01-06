@@ -1,11 +1,9 @@
-
-
 function localStorageSetList(list) {
-    localStorage[list.listTitle] = JSON.stringify(list);
+  localStorage[list.listTitle] = JSON.stringify(list);
 }
 
 function localStorageRemoveList(list) {
-    localStorage.removeItem(list.listTitle);
+  localStorage.removeItem(list.listTitle);
 }
 
-export{localStorageSetList, localStorageRemoveList}
+export { localStorageSetList, localStorageRemoveList };
