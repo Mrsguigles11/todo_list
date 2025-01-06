@@ -186,9 +186,18 @@ function addTasksToContent(list) {
                 taskDescription.textContent = list[task].description;
                 const titleDescriptionContainer = Object.assign(document.createElement('div'), {classList:'task_description_container'});
                 titleDescriptionContainer.append(taskTitle, taskDescription);
-                const taskPriority = Object.assign(document.createElement('div'));
+                const taskPriority = document.createElement('div');
                 taskPriority.textContent = list[task].priority;
-                const taskDueDate = Object.assign(document.createElement('div'));
+                    if (taskPriority.textContent === "High") {
+                        taskPriority.style.color = "rgb(190, 21, 21)";
+                    }
+                    else if (taskPriority.textContent === "Medium") {
+                        taskPriority.style.color = "#fbbf24";
+                    }
+                    else {
+                        taskPriority.style.color = "#a3e635";
+                    }
+                const taskDueDate = document.createElement('div');
                 taskDueDate.textContent = list[task].dueDate;
                 const editTask = Object.assign(document.createElement('img'), {classList:'task_icon'});
                 editTask.src = taskEditIcon;
