@@ -41,4 +41,4 @@ function insertStorageList(list) {
         addListToSidebar(list);
     }
 
-export{List, addList, getCurrentList, changeCurrentList, removeList, insertStorageList}
+export{List, getCurrentList, changeCurrentList, removeList, insertStorageList}
