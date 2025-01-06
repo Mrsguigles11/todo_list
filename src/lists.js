@@ -8,19 +8,15 @@ class List {
     }
 
     publishList() {
-        addList(this);
+        lists.push(this);
+        localStorageSetList(this);
+        addListToSidebar(this);
     }
 
 }
     
 let currentList = "";
 const lists = [];
-
-function addList(list) {
-        lists.push(list);
-        localStorageSetList(list);
-        addListToSidebar(list);
-    }
 
 function getCurrentList() {
         return(currentList);
