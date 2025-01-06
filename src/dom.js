@@ -2,7 +2,7 @@ import listEditIcon from "./img/pencil_edited.svg";
 import taskEditIcon from "./img/pencil.svg";
 import taskDeleteIcon from "./img/delete.svg";
 import { List, removeList, changeCurrentList, getCurrentList } from "./lists";
-import { Task, removeTask, addTaskToList } from "./tasks";
+import { Task, removeTask } from "./tasks";
 import { localStorageRemoveList, localStorageSetList } from "./localStorage";
 
 const cache = {
@@ -105,7 +105,7 @@ const renderForm = (function () {
             newTaskSubmitButton.textContent = "Submit";
             newTaskSubmitButton.addEventListener('click', () => {
                 const newTask = new Task(cache.taskTitleInput.value, cache.taskDescriptionInput.value, cache.taskPriorityInput.value, cache.taskDueDateInput.value);
-                addTaskToList(newTask);
+                newTask.publishTask();
                 toggleFormOff(cache.taskForm);
                 cache.taskForm.removeChild(cache.taskForm.lastChild);
             });

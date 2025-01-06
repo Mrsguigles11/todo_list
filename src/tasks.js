@@ -4,28 +4,27 @@ import { localStorageSetList } from "./localStorage";
 
 
 class Task {
+
+    static #i = 0;
+
+    key;
+
     constructor(title, description, priority, dueDate) {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
+        this.key = ++Task.#i;
     }
 
     publishTask() {
-        addTaskToList(this);
-    }
-
-}
-
-let i = 1;
-
-function addTaskToList(task) {
         const currentList = getCurrentList();
-        currentList["task" + i] = task;
-        i++;
+        currentList["task" + this.key] = this;
         addTasksToContent(currentList);
         localStorageSetList(currentList);
     }
+
+}
 
 function removeTask(task) {
         const currentList = getCurrentList();
@@ -38,6 +37,6 @@ function removeTask(task) {
         addTasksToContent(currentList);
     }
 
-    export {addTaskToList, removeTask, Task};
+    export { removeTask, Task };
 
 
